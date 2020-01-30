@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset = "UTF-8" />
+    <title>Wuhan Virus In Cities</title>
+    <script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+    integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
+    integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
+    crossorigin=""></script>
+	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.2/leaflet.css">
+	<script src="src/choropleth.js"></script>
+
+	<script src="src/leaflet-timeline-slider.js"></script>
+	
+	<script type ="text/javascript" src ="src/lib.js"> </script>
+	
+	
+	<style type="text/css">
+		.legend {
+			color: #555;
+			padding: 6px 8px;
+			font: 12px Arial, Helvetica, sans-serif;
+			font-weight: bold;
+			background: white;
+			background: rgba(255,255,255,0.8);
+			box-shadow: 0 0 15px rgba(0,0,0,0.2);
+			border-radius: 5px;
+		}
+		.legend ul {
+			list-style-type: none;
+			padding: 0;
+			margin: 0;
+			clear: both;
+		}
+		.legend li {
+			display: inline-block;
+			width: 30px;
+			height: 22px;
+		}
+		.legend .min {
+			float: left;
+			padding-bottom: 5px;
+		}
+		.legend .max {
+			float: right;
+		}
+		</style>
+	
+	
+	
+	<script type ="text/javascript" src ="china/province/110000.json"> </script>
+	<script type ="text/javascript" src ="china/province/120000.json"> </script>
+	<script type ="text/javascript" src ="china/province/130000.json"> </script>
+	<script type ="text/javascript" src ="china/province/140000.json"> </script>
+	<script type ="text/javascript" src ="china/province/150000.json"> </script>
+	<script type ="text/javascript" src ="china/province/210000.json"> </script>
+	<script type ="text/javascript" src ="china/province/220000.json"> </script>
+	<script type ="text/javascript" src ="china/province/230000.json"> </script>
+	<script type ="text/javascript" src ="china/province/310000.json"> </script>
+	<script type ="text/javascript" src ="china/province/320000.json"> </script>
+	<script type ="text/javascript" src ="china/province/330000.json"> </script>
+	<script type ="text/javascript" src ="china/province/340000.json"> </script>
+    <script type ="text/javascript" src ="china/province/350000.json"> </script>
+	<script type ="text/javascript" src ="china/province/360000.json"> </script>
+	<script type ="text/javascript" src ="china/province/370000.json"> </script>
+	<script type ="text/javascript" src ="china/province/410000.json"> </script>
+	<script type ="text/javascript" src ="china/province/420000.json"> </script>
+	<script type ="text/javascript" src ="china/province/430000.json"> </script>
+	<script type ="text/javascript" src ="china/province/440000.json"> </script>
+	<script type ="text/javascript" src ="china/province/450000.json"> </script>
+	<script type ="text/javascript" src ="china/province/460000.json"> </script>
+	<script type ="text/javascript" src ="china/province/500000.json"> </script>
+	<script type ="text/javascript" src ="china/province/510000.json"> </script>
+	<script type ="text/javascript" src ="china/province/520000.json"> </script>
+	<script type ="text/javascript" src ="china/province/530000.json"> </script>
+	<script type ="text/javascript" src ="china/province/540000.json"> </script>
+	<script type ="text/javascript" src ="china/province/610000.json"> </script>
+	<script type ="text/javascript" src ="china/province/620000.json"> </script>
+	<script type ="text/javascript" src ="china/province/630000.json"> </script>
+	<script type ="text/javascript" src ="china/province/640000.json"> </script>
+	<script type ="text/javascript" src ="china/province/650000.json"> </script>
+	<script type ="text/javascript" src ="china/province/710000.json"> </script>
+	<script type ="text/javascript" src ="china/province/810000.json"> </script>
+	<script type ="text/javascript" src ="china/province/820000.json"> </script>
+</head>
+    <body>
+        <div id="mapid" style="height: 900px;">
+        </div>
+
+
+        <script type="text/javascript">
+
+			
+	         
+			//获取病毒感染人数数据
+			var allvirus
+			var beijingviurs=new Array()
+			var tianjinviurs=new Array()
+			var hebeiviurs=new Array()
+			var sxviurs=new Array()
+			var neimengguviurs=new Array()
+			var liaoningviurs=new Array()
+			var jilinviurs=new Array()
+			var heilongjiangviurs=new Array()
+			var shanghaiviurs=new Array()
+			var jiangsuviurs=new Array()
+			var zhejiangviurs=new Array()
+			var anhuiviurs=new Array()
+			var fujianviurs=new Array()
+			var jiangxiviurs=new Array()
+			var shandongviurs=new Array()
+			var henanviurs=new Array()
+			var hubeiviurs=new Array()
+			var hunanviurs=new Array()
+			var guangdongviurs=new Array()
+			var guangxiviurs=new Array()
+			var hainanviurs=new Array()
+			var chongqingviurs=new Array()
+			var sichuanviurs=new Array()
+			var guizhouviurs=new Array()
+			var yunnanviurs=new Array()
+			var xizangviurs=new Array()
+			var shanxiviurs=new Array()
+			var gansuviurs=new Array()
+			var qinghaiviurs=new Array()
+			var ningxiaviurs=new Array()
+			var xinjiangviurs=new Array()
+			var xianggangvirus=new Array()
+			var aomenvirus=new Array()
+			var taiwanvirus=new Array()
+			var otherarea=new Array()
+			
+			var chinageojson
+			$.ajaxSettings.async = false; 
+			$.getJSON("https://service-n9zsbooc-1252957949.gz.apigw.tencentcs.com/release/qq",function(data){
+				if(data["errorCode"]!=0){
+					console.log(data["errorMessage"])
+				}else{
+					allvirus=data["data"]["wuwei_ww_area_counts"]
+					for (var i = 0; i<allvirus.length; i++) {
+						item=allvirus[i]
+						if (item.country=="中国"){
+							if (item.area=="北京"){
+								beijingviurs.push(item)
+							}
+							if (item.area=="湖北"){
+								hubeiviurs.push(item)
+							}
+							if (item.area=="广东"){
+								guangdongviurs.push(item)
+							}
+							if (item.area=="浙江"){
+								zhejiangviurs.push(item)
+							}
+							if (item.area=="重庆"){
+								chongqingviurs.push(item)
+							}
+							if (item.area=="湖南"){
+								hunanviurs.push(item)
+							}
+							if (item.area=="安徽"){
+								anhuiviurs.push(item)
+							}
+							if (item.area=="上海"){
+								shanghaiviurs.push(item)
+							}
+							if (item.area=="河南"){
+								henanviurs.push(item)
+							}
+							if (item.area=="四川"){
+								sichuanviurs.push(item)
+							}
+							if (item.area=="山东"){
+								shandongviurs.push(item)
+							}
+							if (item.area=="广西"){
+								guangxiviurs.push(item)
+							}
+							if (item.area=="江西"){
+								jiangxiviurs.push(item)
+							}
+							if (item.area=="福建"){
+								fujianviurs.push(item)
+							}
+							if (item.area=="江苏"){
+								jiangsuviurs.push(item)
+							}
+							if (item.area=="海南"){
+								hainanviurs.push(item)
+							}
+							if (item.area=="辽宁"){
+								liaoningviurs.push(item)
+							}
+							if (item.area=="陕西"){
+								shanxiviurs.push(item)
+							}
+							if (item.area=="云南"){
+								yunnanviurs.push(item)
+							}
+							if (item.area=="天津"){
+								tianjinviurs.push(item)
+							}
+							if (item.area=="黑龙江"){
+								heilongjiangviurs.push(item)
+							}
+							if (item.area=="河北"){
+								hebeiviurs.push(item)
+							}
+							if (item.area=="山西"){
+								sxviurs.push(item)
+							}
+							if (item.area=="香港"){
+								xianggangvirus.push(item)
+							}
+							if (item.area=="贵州"){
+								guizhouviurs.push(item)
+							}
+							if (item.area=="吉林"){
+								jilinviurs.push(item)
+							}
+							if (item.area=="甘肃"){
+								gansuviurs.push(item)
+							}
+							if (item.area=="宁夏"){
+								ningxiaviurs.push(item)
+							}
+							if (item.area=="台湾"){
+								taiwanvirus.push(item)
+							}
+							if (item.area=="新疆"){
+								xinjiangviurs.push(item)
+							}
+							if (item.area=="澳门"){
+								aomenvirus.push(item)
+							}
+							if (item.area=="内蒙古"){
+								neimengguviurs.push(item)
+							}
+							if (item.area=="青海"){
+								qinghaiviurs.push(item)
+							}
+							if (item.area=="西藏"){
+								xizangviurs.push(item)
+							}else{
+								otherarea.push(item)
+							}
+							
+						}
+					}
+				
+				//增加属性
+					// Add value from hash table to geojson properties
+					beijing.features.forEach(function (item){
+					//add properties
+						for(b of beijingviurs){
+							sim=similarity(item.properties.name,b.city)
+								if (sim>=0.5){
+									item.properties.confirm = parseInt(b.confirm)
+									item.properties.suspect=parseInt(b.suspect)
+									item.properties.dead=parseInt(b.dead) 
+									item.properties.heal=parseInt(b.heal)
+								}
+						}
+					})
+					
+					
+					tianjin.features.forEach(function (item){
+					//add properties
+						for(b of tianjinviurs){
+							sim=similarity(item.properties.name,b.city)
+								if (sim>=0.5){
+									item.properties.confirm = parseInt(b.confirm)
+									item.properties.suspect=parseInt(b.suspect)
+									item.properties.dead=parseInt(b.dead) 
+									item.properties.heal=parseInt(b.heal)
+								}
+						}
+					})
+					chinageojson=concatGeoJSON(beijing,tianjin)
+					
+					hebei.features.forEach(function (item){
+					//add properties
+						for(b of hebeiviurs){
+							sim=similarity(item.properties.name,b.city)
+								if (sim>=0.5){
+									item.properties.confirm = parseInt(b.confirm)
+									item.properties.suspect=parseInt(b.suspect)
+									item.properties.dead=parseInt(b.dead) 
+									item.properties.heal=parseInt(b.heal)
+								}
+						}
+					})
+					chinageojson=concatGeoJSON(chinageojson,hebei)
+					
+					sx.features.forEach(function (item){
+					//add properties
+						for(b of sxviurs){
+							sim=similarity(item.properties.name,b.city)
+								if (sim>=0.5){
+									item.properties.confirm = parseInt(b.confirm)
+									item.properties.suspect=parseInt(b.suspect)
+									item.properties.dead=parseInt(b.dead) 
+									item.properties.heal=parseInt(b.heal)
+								}
+						}
+					})
+					chinageojson=concatGeoJSON(chinageojson,sx)
+					
+					neimenggu.features.forEach(function (item){
+					//add properties
+						for(b of neimengguviurs){
+							sim=similarity(item.properties.name,b.city)
+								if (sim>=0.5){
+									item.properties.confirm = parseInt(b.confirm)
+									item.properties.suspect=parseInt(b.suspect)
+									item.properties.dead=parseInt(b.dead) 
+									item.properties.heal=parseInt(b.heal)
+								}
+						}
+					})
+					chinageojson=concatGeoJSON(chinageojson,neimenggu)
+					
+					liaoning.features.forEach(function (item){
+					//add properties
+						for(b of liaoningviurs){
+							sim=similarity(item.properties.name,b.city)
+								if (sim>=0.5){
+									item.properties.confirm = parseInt(b.confirm)
+									item.properties.suspect=parseInt(b.suspect)
+									item.properties.dead=parseInt(b.dead) 
+									item.properties.heal=parseInt(b.heal)
+								}
+						}
+					})
+					chinageojson=concatGeoJSON(chinageojson,liaoning)
+					
+					jilin.features.forEach(function (item){
+					//add properties
+						for(b of jilinviurs){
+							sim=similarity(item.properties.name,b.city)
+								if (sim>=0.5){
+									item.properties.confirm = parseInt(b.confirm)
+									item.properties.suspect=parseInt(b.suspect)
+									item.properties.dead=parseInt(b.dead) 
+									item.properties.heal=parseInt(b.heal)
+								}
+						}
+					})
+					chinageojson=concatGeoJSON(chinageojson,jilin)
+					
+					heilongjiang.features.forEach(function (item){
+					//add properties
+						for(b of heilongjiangviurs){
+							sim=similarity(item.properties.name,b.city)
+								if (sim>=0.5){
+									item.properties.confirm = parseInt(b.confirm)
+									item.properties.suspect=parseInt(b.suspect)
+									item.properties.dead=parseInt(b.dead) 
+									item.properties.heal=parseInt(b.heal)
+								}
+						}
+					})
+					chinageojson=concatGeoJSON(chinageojson,heilongjiang)
+					
+					shanghai.features.forEach(function (item){
+					//add properties
+						for(b of shanghaiviurs){
+							sim=similarity(item.properties.name,b.city)
+								if (sim>=0.5){
+									item.properties.confirm = parseInt(b.confirm)
+									item.properties.suspect=parseInt(b.suspect)
+									item.properties.dead=parseInt(b.dead) 
+									item.properties.heal=parseInt(b.heal)
+								}
+						}
+					})
+					chinageojson=concatGeoJSON(chinageojson,shanghai)
+					
+					jiangsu.features.forEach(function (item){
+					//add properties
+						for(b of jiangsuviurs){
+							sim=similarity(item.properties.name,b.city)
+								if (sim>=0.5){
+									item.properties.confirm = parseInt(b.confirm)
+									item.properties.suspect=parseInt(b.suspect)
+									item.properties.dead=parseInt(b.dead) 
+									item.properties.heal=parseInt(b.heal)
+								}
+						}
+					})
+					chinageojson=concatGeoJSON(chinageojson,jiangsu)
+
+					zhejiang.features.forEach(function (item){
+					//add properties
+						for(b of zhejiangviurs){
+							sim=similarity(item.properties.name,b.city)
+								if (sim>=0.5){
+									item.properties.confirm = parseInt(b.confirm)
+									item.properties.suspect=parseInt(b.suspect)
+									item.properties.dead=parseInt(b.dead) 
+									item.properties.heal=parseInt(b.heal)
+								}
+						}
+					})
+					chinageojson=concatGeoJSON(chinageojson,zhejiang)
+					
+					anhui.features.forEach(function (item){
+					//add properties
+						for(b of anhuiviurs){
+							sim=similarity(item.properties.name,b.city)
+								if (sim>=0.5){
+									item.properties.confirm = parseInt(b.confirm)
+									item.properties.suspect=parseInt(b.suspect)
+									item.properties.dead=parseInt(b.dead) 
+									item.properties.heal=parseInt(b.heal)
+								}
+						}
+					})
+					chinageojson=concatGeoJSON(chinageojson,anhui)
+					
+					fujian.features.forEach(function (item){
+					//add properties
+						for(b of fujianviurs){
+							sim=similarity(item.properties.name,b.city)
+								if (sim>=0.5){
+									item.properties.confirm = parseInt(b.confirm)
+									item.properties.suspect=parseInt(b.suspect)
+									item.properties.dead=parseInt(b.dead) 
+									item.properties.heal=parseInt(b.heal)
+								}
+						}
+					})
+					chinageojson=concatGeoJSON(chinageojson,fujian)
+					
+					jiangxi.features.forEach(function (item){
+					//add properties
+						for(b of jiangxiviurs){
+							sim=similarity(item.properties.name,b.city)
+								if (sim>=0.5){
+									item.properties.confirm = parseInt(b.confirm)
+									item.properties.suspect=parseInt(b.suspect)
+									item.properties.dead=parseInt(b.dead) 
+									item.properties.heal=parseInt(b.heal)
+								}
+						}
+					})
+					chinageojson=concatGeoJSON(chinageojson,jiangxi)
+					
+					shandong.features.forEach(function (item){
+					//add properties
+						for(b of shandongviurs){
+							sim=similarity(item.properties.name,b.city)
+								if (sim>=0.5){
+									item.properties.confirm = parseInt(b.confirm)
+									item.properties.suspect=parseInt(b.suspect)
+									item.properties.dead=parseInt(b.dead) 
+									item.properties.heal=parseInt(b.heal)
+								}
+						}
+					})
+					chinageojson=concatGeoJSON(chinageojson,shandong)
+					
+					henan.features.forEach(function (item){
+					//add properties
+						for(b of henanviurs){
+							sim=similarity(item.properties.name,b.city)
+								if (sim>=0.5){
+									item.properties.confirm = parseInt(b.confirm)
+									item.properties.suspect=parseInt(b.suspect)
+									item.properties.dead=parseInt(b.dead) 
+									item.properties.heal=parseInt(b.heal)
+								}
+						}
+					})
+					chinageojson=concatGeoJSON(chinageojson,henan)
+					
+					hubei.features.forEach(function (item){
+					//add properties
+						for(b of hubeiviurs){
+							sim=similarity(item.properties.name,b.city)
+								if (sim>=0.5){
+									item.properties.confirm = parseInt(b.confirm)
+									item.properties.suspect=parseInt(b.suspect)
+									item.properties.dead=parseInt(b.dead) 
+									item.properties.heal=parseInt(b.heal)
+								}
+						}
+					})
+					chinageojson=concatGeoJSON(chinageojson,hubei)
+					
+					hunan.features.forEach(function (item){
+					//add properties
+						for(b of hunanviurs){
+							sim=similarity(item.properties.name,b.city)
+								if (sim>=0.5){
+									item.properties.confirm = parseInt(b.confirm)
+									item.properties.suspect=parseInt(b.suspect)
+									item.properties.dead=parseInt(b.dead) 
+									item.properties.heal=parseInt(b.heal)
+								}
+						}
+					})
+					chinageojson=concatGeoJSON(chinageojson,hunan)
+					
+					guangdong.features.forEach(function (item){
+					//add properties
+						for(b of guangdongviurs){
+							sim=similarity(item.properties.name,b.city)
+								if (sim>=0.5){
+									item.properties.confirm = parseInt(b.confirm)
+									item.properties.suspect=parseInt(b.suspect)
+									item.properties.dead=parseInt(b.dead) 
+									item.properties.heal=parseInt(b.heal)
+								}
+						}
+					})
+					chinageojson=concatGeoJSON(chinageojson,guangdong)
+					
+					guangxi.features.forEach(function (item){
+					//add properties
+						for(b of guangxiviurs){
+							sim=similarity(item.properties.name,b.city)
+								if (sim>=0.5){
+									item.properties.confirm = parseInt(b.confirm)
+									item.properties.suspect=parseInt(b.suspect)
+									item.properties.dead=parseInt(b.dead) 
+									item.properties.heal=parseInt(b.heal)
+								}
+						}
+					})
+					chinageojson=concatGeoJSON(chinageojson,guangxi)
+					
+					hainan.features.forEach(function (item){
+					//add properties
+						for(b of hainanviurs){
+							sim=similarity(item.properties.name,b.city)
+								if (sim>=0.5){
+									item.properties.confirm = parseInt(b.confirm)
+									item.properties.suspect=parseInt(b.suspect)
+									item.properties.dead=parseInt(b.dead) 
+									item.properties.heal=parseInt(b.heal)
+								}
+						}
+					})
+					chinageojson=concatGeoJSON(chinageojson,hainan)
+					
+					chongqing.features.forEach(function (item){
+					//add properties
+						for(b of chongqingviurs){
+							sim=similarity(item.properties.name,b.city)
+								if (sim>=0.5){
+									item.properties.confirm = parseInt(b.confirm)
+									item.properties.suspect=parseInt(b.suspect)
+									item.properties.dead=parseInt(b.dead) 
+									item.properties.heal=parseInt(b.heal)
+								}
+						}
+					})
+					chinageojson=concatGeoJSON(chinageojson,chongqing)
+					
+					sichuan.features.forEach(function (item){
+					//add properties
+						for(b of sichuanviurs){
+							sim=similarity(item.properties.name,b.city)
+								if (sim>=0.5){
+									item.properties.confirm = parseInt(b.confirm)
+									item.properties.suspect=parseInt(b.suspect)
+									item.properties.dead=parseInt(b.dead) 
+									item.properties.heal=parseInt(b.heal)
+								}
+						}
+					})
+					chinageojson=concatGeoJSON(chinageojson,sichuan)
+					
+					guizhou.features.forEach(function (item){
+					//add properties
+						for(b of guizhouviurs){
+							sim=similarity(item.properties.name,b.city)
+								if (sim>=0.5){
+									item.properties.confirm = parseInt(b.confirm)
+									item.properties.suspect=parseInt(b.suspect)
+									item.properties.dead=parseInt(b.dead) 
+									item.properties.heal=parseInt(b.heal)
+								}
+						}
+					})
+					chinageojson=concatGeoJSON(chinageojson,guizhou)
+					
+					yunnan.features.forEach(function (item){
+					//add properties
+						for(b of yunnanviurs){
+							sim=similarity(item.properties.name,b.city)
+								if (sim>=0.5){
+									item.properties.confirm = parseInt(b.confirm)
+									item.properties.suspect=parseInt(b.suspect)
+									item.properties.dead=parseInt(b.dead) 
+									item.properties.heal=parseInt(b.heal)
+								}
+						}
+					})
+					chinageojson=concatGeoJSON(chinageojson,yunnan)
+					
+					xizang.features.forEach(function (item){
+					//add properties
+						for(b of xizangviurs){
+							sim=similarity(item.properties.name,b.city)
+								if (sim>=0.5){
+									item.properties.confirm = parseInt(b.confirm)
+									item.properties.suspect=parseInt(b.suspect)
+									item.properties.dead=parseInt(b.dead) 
+									item.properties.heal=parseInt(b.heal)
+								}
+						}
+					})
+					chinageojson=concatGeoJSON(chinageojson,xizang)
+					
+					shanxi.features.forEach(function (item){
+					//add properties
+						for(b of shanxiviurs){
+							sim=similarity(item.properties.name,b.city)
+								if (sim>=0.5){
+									item.properties.confirm = parseInt(b.confirm)
+									item.properties.suspect=parseInt(b.suspect)
+									item.properties.dead=parseInt(b.dead) 
+									item.properties.heal=parseInt(b.heal)
+								}
+						}
+					})
+					chinageojson=concatGeoJSON(chinageojson,shanxi)
+					
+					gansu.features.forEach(function (item){
+					//add properties
+						for(b of gansuviurs){
+							sim=similarity(item.properties.name,b.city)
+								if (sim>=0.5){
+									item.properties.confirm = parseInt(b.confirm)
+									item.properties.suspect=parseInt(b.suspect)
+									item.properties.dead=parseInt(b.dead) 
+									item.properties.heal=parseInt(b.heal)
+								}
+						}
+					})
+					chinageojson=concatGeoJSON(chinageojson,gansu)
+					
+					qinghai.features.forEach(function (item){
+					//add properties
+						for(b of qinghaiviurs){
+							sim=similarity(item.properties.name,b.city)
+								if (sim>=0.5){
+									item.properties.confirm = parseInt(b.confirm)
+									item.properties.suspect=parseInt(b.suspect)
+									item.properties.dead=parseInt(b.dead) 
+									item.properties.heal=parseInt(b.heal)
+								}
+						}
+					})
+					chinageojson=concatGeoJSON(chinageojson,qinghai)
+					
+					ningxia.features.forEach(function (item){
+					//add properties
+						for(b of ningxiaviurs){
+							sim=similarity(item.properties.name,b.city)
+								if (sim>=0.5){
+									item.properties.confirm = parseInt(b.confirm)
+									item.properties.suspect=parseInt(b.suspect)
+									item.properties.dead=parseInt(b.dead) 
+									item.properties.heal=parseInt(b.heal)
+								}
+						}
+					})
+					chinageojson=concatGeoJSON(chinageojson,ningxia)
+					
+					xinjiang.features.forEach(function (item){
+					//add properties
+						for(b of xinjiangviurs){
+							sim=similarity(item.properties.name,b.city)
+								if (sim>=0.5){
+									item.properties.confirm = parseInt(b.confirm)
+									item.properties.suspect=parseInt(b.suspect)
+									item.properties.dead=parseInt(b.dead) 
+									item.properties.heal=parseInt(b.heal)
+								}
+						}
+					})
+					chinageojson=concatGeoJSON(chinageojson,xinjiang)
+					
+					taiwan.features.forEach(function (item){
+					//add properties
+						for(b of taiwanvirus){
+							sim=similarity(item.properties.name,b.city)
+								if (sim>=0.5){
+									item.properties.confirm = parseInt(b.confirm)
+									item.properties.suspect=parseInt(b.suspect)
+									item.properties.dead=parseInt(b.dead) 
+									item.properties.heal=parseInt(b.heal)
+								}
+						}
+					})
+					chinageojson=concatGeoJSON(chinageojson,taiwan)
+					
+					xianggang.features.forEach(function (item){
+					//add properties
+						for(b of xianggangvirus){
+							sim=similarity(item.properties.name,b.city)
+								if (sim>=0.5){
+									item.properties.confirm = parseInt(b.confirm)
+									item.properties.suspect=parseInt(b.suspect)
+									item.properties.dead=parseInt(b.dead) 
+									item.properties.heal=parseInt(b.heal)
+								}
+						}
+					})
+					chinageojson=concatGeoJSON(chinageojson,xianggang)
+					
+					aomen.features.forEach(function (item){
+					//add properties
+						for(b of aomenvirus){
+							sim=similarity(item.properties.name,b.city)
+								if (sim>=0.5){
+									item.properties.confirm = parseInt(b.confirm)
+									item.properties.suspect=parseInt(b.suspect)
+									item.properties.dead=parseInt(b.dead) 
+									item.properties.heal=parseInt(b.heal)
+								}
+						}
+					})
+					chinageojson=concatGeoJSON(chinageojson,aomen)
+				}	
+			})
+			
+			
+			
+	
+			var mymap = L.map('mapid').setView([35, 110], 4);
+			mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+			mbUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZGFsaXNoZW5nIiwiYSI6ImNrNXk4aTdmZTE1ZnMzZ3BvMmV2YzZveTIifQ.LGm7RfJFfVQG1IzVwic1UQ';
+            L.tileLayer(mbUrl, {id: 'mapbox/light-v9', attribution: mbAttr}).addTo(mymap);
+			//console.log(beijingviurs)
+			
+			
+			//添加到地图上
+			addGeoJSON2map=function({ map, exclamation}){
+			map.eachLayer(function (layer) {
+				map.removeLayer(layer);
+				L.tileLayer(mbUrl, {id: 'mapbox/light-v9', attribution: mbAttr}).addTo(mymap);
+				
+                //if (layer instanceof L.Marker) {
+                 //           map.removeLayer(layer);
+                    //    }     
+			 });
+
+			//设置颜色属性
+			var choroplethLayer = L.choropleth(chinageojson, {
+				valueProperty: 'confirm',
+				scale: ['yellow', 'red'],
+				steps: 20,
+				mode: 'q',
+				style: {
+					color: '#fff',
+					weight: 2,
+					fillOpacity: 0.3
+				},
+				onEachFeature: function (feature, layer) {
+					layer.bindPopup(feature.properties.name + '/'+feature.properties.confirm + ' confirmed'+ '/'+feature.properties.suspect + ' suspected'+ '/'+feature.properties.dead + ' dead'+ '/'+feature.properties.heal + ' cured')
+				}
+			}).addTo(map)
+			//console.log(choroplethLayer)
+			// Add legend (don't forget to add the CSS from index.html)
+			var legend = L.control({ position: 'bottomleft' })
+			$( "#onetime" ).remove();
+			
+			legend.onAdd=function (map) {
+				
+				var div = L.DomUtil.create('div', 'info legend')
+				div.id = "onetime";
+				var limits = choroplethLayer.options.limits
+				var colors = choroplethLayer.options.colors
+				var labels = []
+
+			// Add min & max
+				div.innerHTML = '<div class="labels"><div class="min">' + parseInt(limits[0]) + '</div> \<div class="max">' + parseInt(limits[limits.length - 1]) + '</div></div>'
+
+			limits.forEach(function (limit, index) {
+				labels.push('<li style="background-color: ' + colors[index] + '"></li>')
+			})
+
+			div.innerHTML += '<ul>' + labels.join('') + '</ul>'
+				return div
+			}
+			
+	
+			legend.addTo(map)
+			
+			};
+
+            L.control.timelineSlider({
+                timelineItems: ["Day 1", "The Next Day", "Amazing Event", "1776", "12/22/63", "1984","sadas"], 
+                changeMap: addGeoJSON2map,
+                extraChangeMapParams: {exclamation: "Hello World!"} })
+            .addTo(mymap);             
+        </script>
+    </body>
+
+</html>
